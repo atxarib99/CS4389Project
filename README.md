@@ -10,7 +10,7 @@ For development you will also need a JDK, or Java Development Kit. We use OpenJD
 
 ## Application Download
 
-To run the application you can either look for the .jar file to download and run. This is all you will need to run the application.
+To run the application you can either look for the .jar file to download and run. This is all you will need to run the application. (Not currently available. You will need to build from source.)
 
 If that is not available you can build from source. Download this repository from the download button above. You can then open this in an IDE and run Main.java. Your IDE should be able to build this provided that you have a JDK and a JRE.
 
