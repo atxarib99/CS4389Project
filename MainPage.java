@@ -28,6 +28,7 @@ public class MainPage extends JFrame {
         this.pack();
         this.setSize(750, 500);
 
+        //temp need to use user's preference.
         this.encryptor = new CeaserEncryptor(2);
     }
 
@@ -55,7 +56,7 @@ public class MainPage extends JFrame {
         passwords.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent event) {
-                new PasswordsPage().setVisible(true);
+                new PasswordsPage(encryptor).setVisible(true);
             }
         });
         this.add(passwords);
@@ -102,7 +103,7 @@ public class MainPage extends JFrame {
             @Override
             public void actionPerformed(ActionEvent event) {
                 Crypters[] myCrypt = new Crypters[1];
-                new EncryptionSelecterDialog(MainPage.this, true, myCrypt)
+                new EncryptionSelecterDialog(MainPage.this, true, myCrypt);
                 //TODO: NEED TO DO SOME HANDOFF SUCH AS LOAD ALL PASSWORDS DECRYPT WILL CURRENT ENCRYPTOR, THEN ENCRYPT WITH NEW ENCRYPTOR
                 if(myCrypt[0] != null) {
                     switch (myCrypt[0]) {
