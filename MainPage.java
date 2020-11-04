@@ -28,8 +28,21 @@ public class MainPage extends JFrame {
         this.pack();
         this.setSize(750, 500);
 
+        //TODO: first time app launch code
         //temp need to use user's preference.
-        this.encryptor = new CeaserEncryptor(2);
+        //TODO: oops this is not valid for things other than ceaser
+        boolean done = false;
+        String[] key = new String[1];
+        AskKeyDialog akd = new AskKeyDialog(this, true, key, "");
+        while(!done) {
+            try {
+                this.encryptor = new CeaserEncryptor(Integer.parseInt(key[0]));
+                done = true;
+            } catch (NumberFormatException e) {
+                akd = new AskKeyDialog(this, true, key, "Key could not be parsed.");
+                done = false;
+            }
+        }
     }
 
     public void showLogo() {
