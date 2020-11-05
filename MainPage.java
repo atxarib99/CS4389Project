@@ -12,6 +12,7 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.plaf.InsetsUIResource;
 
 public class MainPage extends JFrame {
 
@@ -28,7 +29,11 @@ public class MainPage extends JFrame {
         this.pack();
         this.setSize(750, 500);
 
-        //TODO: first time app launch code
+        if(!Installer.isInstalled()) {
+            Installer.install();
+        }
+
+        
         //temp need to use user's preference.
         //TODO: oops this is not valid for things other than ceaser
         boolean done = false;
