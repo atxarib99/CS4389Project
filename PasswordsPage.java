@@ -12,6 +12,9 @@ import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+
 
 public class PasswordsPage extends JFrame {
 
@@ -22,10 +25,6 @@ public class PasswordsPage extends JFrame {
     public PasswordsPage(Encryptor encryptor) {
         super();
         this.encryptor = encryptor;
-        mainPanel = new JPanel();
-        mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
-        this.add(mainPanel);
-        this.setSize(800, 600);
 
         sitePasses = new TreeMap<>();
         try {
@@ -33,6 +32,8 @@ public class PasswordsPage extends JFrame {
         } catch (FileNotFoundException e) {
             System.err.println("PASSWORDS FILE NOT FOUND!");
         }
+
+        buildPage();
 
         this.pack();
         this.setSize(800, 600);
@@ -51,6 +52,39 @@ public class PasswordsPage extends JFrame {
         });
     }
 
+    private void buildPage() {
+
+        mainPanel = new JPanel();
+        this.add(mainPanel);
+        mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
+        this.setSize(800, 600);
+
+        for(String key : sitePasses.keySet()) {
+            addPassword(new PasswordRow(key, sitePasses.get(key)));
+        }
+
+        //note that password row elements have already been built
+        JButton add = new JButton("Add Password");
+        add.setAlignmentX(Component.CENTER_ALIGNMENT);
+        String[] params = new String[2];
+        add.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent event) {
+                new NewPasswordPage(PasswordsPage.this, true, params);
+                sitePasses.put(params[0], params[1]);
+                clearPage();
+                buildPage();
+            }
+
+        });
+        mainPanel.add(add);
+    }
+
+    private void clearPage() {
+        this.remove(mainPanel);
+    }
+
+
     public void addPassword(PasswordRow row) {
         row.setAlignmentX(Component.CENTER_ALIGNMENT);
         mainPanel.add(row);
@@ -58,7 +92,7 @@ public class PasswordsPage extends JFrame {
 
     private void savePasswords() throws IOException {
 
-        FileWriter fw = new FileWriter(new File("passwords.txt"));
+        FileWriter fw = new FileWriter(new File(Installer.getPasswordPath()));
 
         for (String key : sitePasses.keySet()) {
             fw.write(key + "," + encryptor.encrypt(sitePasses.get(key)) + "\n");
@@ -68,14 +102,13 @@ public class PasswordsPage extends JFrame {
     }
 
     private void loadPasswords() throws FileNotFoundException {
-        Scanner scanner = new Scanner(new File("passwords.txt"));
+        Scanner scanner = new Scanner(new File(Installer.getPasswordPath()));
 
         while(scanner.hasNextLine()) {
             String line = scanner.nextLine();
             String[] sitePass = line.split(",");
             String password = encryptor.decrypt(sitePass[1]);
             sitePasses.put(sitePass[0], password);
-            addPassword(new PasswordRow(sitePass[0], password));
         }
         scanner.close();
     }
