@@ -13,6 +13,7 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.SwingUtilities;
 
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -59,17 +60,17 @@ public class PasswordsPage extends JFrame {
     private void buildPage() {
 
         mainPanel = new JPanel();
+        this.add(mainPanel);
         mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
         passwordsPanel = new JPanel();
         passwordsPanel.setLayout(new BoxLayout(passwordsPanel, BoxLayout.Y_AXIS));
-        this.add(mainPanel);
         this.setSize(850, 600);
-        mainScrollPane = new JScrollPane(passwordsPanel, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-        mainPanel.add(mainScrollPane);
 
         for(String key : sitePasses.keySet()) {
             addPassword(new PasswordRow(key, sitePasses.get(key)));
         }
+        mainScrollPane = new JScrollPane(passwordsPanel, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        mainPanel.add(mainScrollPane);
 
         //note that password row elements have already been built
         JButton add = new JButton("Add Password");
@@ -87,6 +88,7 @@ public class PasswordsPage extends JFrame {
 
         });
         mainPanel.add(add);
+        SwingUtilities.updateComponentTreeUI(this);
     }
 
     private void clearPage() {
