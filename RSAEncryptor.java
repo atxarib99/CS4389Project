@@ -4,7 +4,7 @@ public class RSAEncryptor extends Encryptor {
     public long publicKey;
     private long privateKey;
     public long n;
-    public RSAEncryptor(long publicKey, long privateKey) {
+    public RSAEncryptor(long publicKey, long privateKey, long n ) {
         this.publicKey = publicKey;
         this.privateKey = privateKey;
     }
@@ -55,21 +55,30 @@ public class RSAEncryptor extends Encryptor {
         this.n = n;
         this.publicKey = e;
         this.privateKey = d;
-        
     }
 
 
 
     @Override
     public String encrypt(String plain) {
-        // TODO Auto-generated method stub
-        return null;
+        byte[] pla = plain.getBytes();
+        byte[] enc = new byte[plain.getBytes().length];
+        for(int i = 0; i < enc.length; i++) {
+            enc[i] = (byte) (Math.pow(pla[i], this.publicKey) % this.n); 
+        }
+
+        return new String(enc);
     }
 
     @Override
     public String decrypt(String cipher) {
-        // TODO Auto-generated method stub
-        return null;
+        byte[] enc = cipher.getBytes();
+        byte[] pla = new byte[enc.length];
+        for(int i = 0; i < enc.length; i++) {
+            pla[i] = (byte) (Math.pow(enc[i], this.privateKey) % this.n); 
+        }
+
+        return new String(pla);
     }
 
 

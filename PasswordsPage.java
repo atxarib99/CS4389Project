@@ -12,6 +12,8 @@ import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
@@ -21,6 +23,8 @@ public class PasswordsPage extends JFrame {
     JPanel mainPanel;
     Map<String, String> sitePasses;
     Encryptor encryptor;
+    JScrollPane mainScrollPane;
+    JPanel passwordsPanel;
 
     public PasswordsPage(Encryptor encryptor) {
         super();
@@ -36,7 +40,7 @@ public class PasswordsPage extends JFrame {
         buildPage();
 
         this.pack();
-        this.setSize(800, 600);
+        this.setSize(850, 600);
         this.setVisible(true);
         this.addWindowListener(new java.awt.event.WindowAdapter() {
 
@@ -55,9 +59,13 @@ public class PasswordsPage extends JFrame {
     private void buildPage() {
 
         mainPanel = new JPanel();
-        this.add(mainPanel);
         mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
-        this.setSize(800, 600);
+        passwordsPanel = new JPanel();
+        passwordsPanel.setLayout(new BoxLayout(passwordsPanel, BoxLayout.Y_AXIS));
+        this.add(mainPanel);
+        this.setSize(850, 600);
+        mainScrollPane = new JScrollPane(passwordsPanel, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+        mainPanel.add(mainScrollPane);
 
         for(String key : sitePasses.keySet()) {
             addPassword(new PasswordRow(key, sitePasses.get(key)));
@@ -71,7 +79,8 @@ public class PasswordsPage extends JFrame {
             @Override
             public void actionPerformed(ActionEvent event) {
                 new NewPasswordPage(PasswordsPage.this, true, params);
-                sitePasses.put(params[0], params[1]);
+                if(!params[0].equals("##Canceled") && !params[1].equals("##Canceled"))
+                    sitePasses.put(params[0], params[1]);
                 clearPage();
                 buildPage();
             }
@@ -87,7 +96,7 @@ public class PasswordsPage extends JFrame {
 
     public void addPassword(PasswordRow row) {
         row.setAlignmentX(Component.CENTER_ALIGNMENT);
-        mainPanel.add(row);
+        passwordsPanel.add(row);
     }
 
     private void savePasswords() throws IOException {
