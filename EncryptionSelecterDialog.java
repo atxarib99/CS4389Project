@@ -6,6 +6,8 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.math.BigInteger;
+import java.util.Scanner;
 import java.awt.Component;
 
 import javax.swing.BoxLayout;
@@ -99,7 +101,27 @@ public class EncryptionSelecterDialog extends JDialog {
 
             //show private key
             new ShowKeyDialog(EncryptionSelecterDialog.this, true, rsa.getPrivateKey().toString(16));
-
+        } else {
+            try {
+                Scanner scanner = new Scanner(file);
+                String[] keyinfo = new String[1];
+                while(scanner.hasNextLine()) {
+                    String line = scanner.nextLine();
+                    if(line.isEmpty())
+                        continue;
+                    String[] split = line.split(",");
+                    if(split[0].equals("RSA")) {
+                        keyinfo = split;
+                    }
+                }
+                if(keyinfo.length > 1) {
+                    String[] key = new String[1];
+                    AskKeyDialog akd = new AskKeyDialog(this, true, key, "Enter your RSA key");
+                    rsa = new RSAEncryptor(new BigInteger(keyinfo[1], 16), new BigInteger(key[0],16), new BigInteger(keyinfo[2], 16));
+                }
+            } catch(IOException e) {
+                System.err.println("Error with files while setting up rsa.");
+            }
 
         }
     }

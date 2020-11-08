@@ -104,13 +104,16 @@ public class RSAEncryptor extends Encryptor {
             }
         }
 
-        pla = new BigInteger(sb.toString(), 16);
-        enc = pla.modPow(this.publicKey, this.n);
-        String temp = enc.toString(16);
-        while(temp.length() < 32) {
-            temp = "0" + temp;
+        if(!sb.toString().isEmpty()) {
+            pla = new BigInteger(sb.toString(), 16);
+            enc = pla.modPow(this.publicKey, this.n);
+            String temp = enc.toString(16);
+            while(temp.length() < 32) {
+                temp = "0" + temp;
+            }
+            out.append(temp);
         }
-        out.append(temp);
+        
 
         return out.toString();
     }
