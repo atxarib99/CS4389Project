@@ -48,7 +48,7 @@ public class NewPasswordPage extends JDialog {
         password.setLocation(250, 0);
         mainPanel.add(password);
 
-        ImageIcon imgicon = new ImageIcon("generate.png");
+        ImageIcon imgicon = new ImageIcon(NewPasswordPage.class.getResource("images/generate.png"));
         Image img = imgicon.getImage();
         img = img.getScaledInstance(50, 50, Image.SCALE_SMOOTH);
         JButton generateButton = new JButton(new ImageIcon(img));

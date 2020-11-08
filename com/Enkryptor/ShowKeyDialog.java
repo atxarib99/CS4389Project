@@ -46,7 +46,7 @@ public class ShowKeyDialog extends JDialog {
         keyText.setLocation(0,25);
         mainPanel.add(keyText);
 
-        ImageIcon imgicon = new ImageIcon("copy.png");
+        ImageIcon imgicon = new ImageIcon(ShowKeyDialog.class.getResource("images/copy.png"));
         Image img = imgicon.getImage();
         img = img.getScaledInstance(50, 50, Image.SCALE_SMOOTH);
         JButton copyButton = new JButton(new ImageIcon(img));

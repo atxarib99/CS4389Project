@@ -38,7 +38,7 @@ public class PasswordRow extends JPanel {
         this.add(passwordField);
 
 
-        ImageIcon imgicon = new ImageIcon("copy.png");
+        ImageIcon imgicon = new ImageIcon(PasswordRow.class.getResource("images/copy.png"));
         Image img = imgicon.getImage();
         img = img.getScaledInstance(50, 50, Image.SCALE_SMOOTH);
         JButton copyButton = new JButton(new ImageIcon(img));

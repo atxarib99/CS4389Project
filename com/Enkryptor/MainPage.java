@@ -8,6 +8,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStream;
 import java.math.BigInteger;
 import java.util.Map;
 import java.util.Scanner;
@@ -102,7 +103,8 @@ public class MainPage extends JFrame {
     public void showLogo() {
         BufferedImage image;
         try {
-            image = ImageIO.read(new File("f6c0ccc8-9149-4dde-aa91-3b74e1e04b82_200x200.png"));
+            String imgFile = "images/f6c0ccc8-9149-4dde-aa91-3b74e1e04b82_200x200.png";
+            image = ImageIO.read(MainPage.class.getResource(imgFile));
             JLabel picLabel = new JLabel(new ImageIcon(image));
             picLabel.setSize(400, 194);
             picLabel.setLocation(175, 0);
