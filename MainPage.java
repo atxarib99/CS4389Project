@@ -10,6 +10,7 @@ import java.math.BigInteger;
 import java.util.Map;
 import java.util.Scanner;
 import java.util.TreeMap;
+import java.awt.Toolkit;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
@@ -23,14 +24,14 @@ public class MainPage extends JFrame {
     public MainPage() {
         super();
         this.setLayout(null);
-        this.setSize(new Dimension(750, 500));
+        this.setSize(new Dimension(750, 700));
         // this.setLocation(0,0);
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         showLogo();
         buildMainButtons();
 
         this.pack();
-        this.setSize(750, 500);
+        this.setSize(750, 700);
 
         if (!Installer.isInstalled()) {
             Installer.install();
@@ -167,9 +168,6 @@ public class MainPage extends JFrame {
             public void actionPerformed(ActionEvent event) {
                 Encryptor[] myCrypt = new Encryptor[1];
                 new EncryptionSelecterDialog(MainPage.this, true, myCrypt);
-                // TODO: NEED TO DO SOME HANDOFF SUCH AS LOAD ALL PASSWORDS DECRYPT WILL CURRENT
-                // ENCRYPTOR, THEN ENCRYPT WITH NEW ENCRYPTOR
-                // performHandoff(myCrypt[0]);
                 if (myCrypt[0] != null) {
                     try {
                         performHandoff(myCrypt[0]);
@@ -181,6 +179,17 @@ public class MainPage extends JFrame {
             }
         });
         this.add(selectEncryptor);
+
+        JButton prepare = new JButton("Prepare File For Transmission");
+        prepare.setSize(550,100);
+        prepare.setLocation(100, 500);
+        prepare.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent event) {
+                new FriendRSAInfo(MainPage.this, true);
+            }
+        }); 
+        this.add(prepare);
 
     }
 
