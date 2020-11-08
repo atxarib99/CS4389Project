@@ -54,6 +54,8 @@ public class EncryptionSelecterDialog extends JDialog {
                             myCrypt[0] = new CeaserEncryptor(); setupCeaser((CeaserEncryptor)myCrypt[0]); break;
                         case RSA:
                             myCrypt[0] = new RSAEncryptor(); setupRSA((RSAEncryptor)myCrypt[0]); break;
+                        case Hybrid:
+                        	myCrypt[0] = new HybridEncryptor(); setupHybrid((HybridEncryptor)myCrypt[0]); break;
                         default:
                             break;
 
@@ -125,6 +127,21 @@ public class EncryptionSelecterDialog extends JDialog {
                 System.err.println("Error with files while setting up rsa.");
             }
 
+        }
+    }
+    
+    private void setupHybrid(HybridEncryptor hyb) {
+    	String[] key = new String[1];
+        new AskKeyDialog(this, true, key, "Enter a key: Any string");
+        boolean done = false;
+        while (!done) {
+            try {
+                hyb.setKey(key[0]);
+                done = true;
+            } catch (NumberFormatException e) {
+                new AskKeyDialog(this, true, key, "Enter a key: Any number");
+                done = false;
+            }
         }
     }
 
