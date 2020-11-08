@@ -6,7 +6,7 @@ Let's get you secure.
 
 First you will need a Java runtime environment if you do not have one already. Check out <https://www.java.com/en/>.
 
-For development you will also need a JDK, or Java Development Kit. We use OpenJDK which can be found here <https://openjdk.java.net>
+For development you will also need a JDK, or Java Development Kit. The most recent JDK can be found here: <https://www.oracle.com/java/technologies/javase-jdk15-downloads.html>
 
 ## Application Download
 
