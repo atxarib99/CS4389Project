@@ -1,13 +1,21 @@
 
 public class CeaserEncryptor extends Encryptor {
 
-    int key;
+    private int key;
     public CeaserEncryptor(int key) {
         this.key = key % 26;
     }
 
     public CeaserEncryptor() {
         key = 2;
+    }
+
+    public void setKey(int key) {
+        this.key = key;
+    }
+
+    public int getKey() {
+        return key;
     }
 
     public String encrypt(String s) {

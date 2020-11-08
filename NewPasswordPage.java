@@ -90,7 +90,7 @@ public class NewPasswordPage extends JDialog {
         mainPanel.add(cancel);
 
         JButton checkStrength = new JButton("Check Strength");
-        checkStrength.setSize(100,25);
+        checkStrength.setSize(150,25);
         checkStrength.setLocation(0,75);
         checkStrength.addActionListener(new ActionListener() {
             @Override

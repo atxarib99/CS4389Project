@@ -115,6 +115,8 @@ public class PasswordsPage extends JFrame {
 
         while(scanner.hasNextLine()) {
             String line = scanner.nextLine();
+            if(line.isEmpty())
+                continue;
             String[] sitePass = line.split(",");
             String password = encryptor.decrypt(sitePass[1]);
             sitePasses.put(sitePass[0], password);

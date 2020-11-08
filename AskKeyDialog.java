@@ -35,6 +35,27 @@ public class AskKeyDialog extends JDialog {
 
     }
 
+    public AskKeyDialog(JDialog parent, boolean modal, String[] key, String errormsg) {
+        super(parent, modal);
+
+        this.key = key;
+
+        mainPanel = new JPanel();
+        mainPanel.setSize(500,200);
+        mainPanel.setLayout(null);
+        this.setSize(500, 200);
+        this.add(mainPanel);
+        buildPage();
+        errors.setText(errormsg);
+
+
+        this.pack();
+        this.setSize(500,200);
+        this.setVisible(true);
+
+    }
+
+
     private void buildPage() {
 
         errors = new JLabel("", SwingConstants.RIGHT);

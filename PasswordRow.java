@@ -1,3 +1,8 @@
+import java.awt.datatransfer.StringSelection;
+import java.awt.Toolkit;
+import java.awt.datatransfer.Clipboard;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import javax.swing.BoxLayout;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
@@ -21,8 +26,6 @@ public class PasswordRow extends JPanel {
         siteField.setMaximumSize(siteField.getPreferredSize());
         siteField.setText(site);
         siteField.setEditable(false);
-        // siteField.setAlignmentY(Component.CENTER_ALIGNMENT);
-        // siteField.setAlignmentX(Component.CENTER_ALIGNMENT);
         this.add(siteField);
 
         JTextField passwordField = new JTextField();
@@ -30,8 +33,6 @@ public class PasswordRow extends JPanel {
         passwordField.setPreferredSize(new Dimension(400,50));
         passwordField.setMinimumSize(passwordField.getPreferredSize());
         passwordField.setMaximumSize(passwordField.getPreferredSize());
-        // passwordField.setAlignmentY(Component.CENTER_ALIGNMENT);
-        // passwordField.setAlignmentX(Component.CENTER_ALIGNMENT);
         this.add(passwordField);
 
 
@@ -40,13 +41,18 @@ public class PasswordRow extends JPanel {
         img = img.getScaledInstance(50, 50, Image.SCALE_SMOOTH);
         JButton copyButton = new JButton(new ImageIcon(img));
         copyButton.setPreferredSize(new Dimension(50,50));
+        copyButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent event) {
+                StringSelection stringSelection = new StringSelection(passwordField.getText());
+                Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
+                clipboard.setContents(stringSelection, null);
+            }
+        });
         this.add(copyButton);
         
 
         //TODO: Button for show/hide password
-
-        //TODO: Button for copy
-
 
     }
 }
