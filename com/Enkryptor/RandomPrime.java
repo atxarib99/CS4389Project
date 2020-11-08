@@ -1,3 +1,5 @@
+package com.Enkryptor;
+
 import java.util.concurrent.ThreadLocalRandom;
 public class RandomPrime {
 

@@ -1,7 +1,4 @@
-import java.math.BigInteger;
-import java.util.Arrays;
-
-import javax.swing.JFrame;
+package com.Enkryptor;
 
 public class Tester {
   

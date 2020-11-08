@@ -1,3 +1,5 @@
+package com.Enkryptor;
+
 import java.awt.Component;
 import java.awt.event.WindowListener;
 import java.io.File;

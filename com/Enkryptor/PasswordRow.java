@@ -1,3 +1,5 @@
+package com.Enkryptor;
+
 import java.awt.datatransfer.StringSelection;
 import java.awt.Toolkit;
 import java.awt.datatransfer.Clipboard;
