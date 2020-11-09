@@ -7,6 +7,7 @@ import java.math.BigInteger;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
@@ -67,6 +68,11 @@ public class FriendRSAInfo extends JDialog {
             }
         });
         mainPanel.add(cancel);
+
+        JLabel info = new JLabel("Enter friends modulus and public key respectively.");
+        info.setSize(500,25);
+        info.setLocation(0, 50);
+        mainPanel.add(info);
 
     }
 
