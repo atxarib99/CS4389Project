@@ -63,12 +63,12 @@ public class Installer {
         return passwords.getAbsolutePath();
     }
 
-    public static String getKeyPath() {
+    public static String getKeyPath(String algo) {
         String sep = File.separator;
         String home = System.getProperty("user.home");
 
         File enkryptor = new File(home + sep + "Enkryptor" + sep);
-        File keys = new File(enkryptor.getAbsolutePath() + sep + "keys.enk");
+        File keys = new File(enkryptor.getAbsolutePath() + sep + algo + "keys.enk");
 
         return keys.getAbsolutePath();
 
@@ -118,6 +118,8 @@ public class Installer {
             }
             else if (enc instanceof RSAEncryptor) {
                 fw.write("RSA");
+            } else if(enc instanceof HybridEncryptor) {
+                fw.write("Hybrid");
             }
         }
         fw.close();
