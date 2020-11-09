@@ -76,9 +76,9 @@ public class MainPage extends JFrame {
             }
         }
 
-        if(encryptorName.equals("RSA")) {
+        if(encryptorName.equals("RSA") || encryptorName.equals("Hybrid")) {
             akd = new AskKeyDialog(this, true, key, "Enter your RSA Private Key");
-            String keyPath = Installer.getKeyPath();
+            String keyPath = Installer.getKeyPath("RSA");
             Scanner scanner;
             try {
                 scanner = new Scanner(new File(keyPath));
@@ -97,6 +97,30 @@ public class MainPage extends JFrame {
                 System.err.println("Couldn't open keys!");
                 System.exit(1);
             }
+        }
+
+        if(encryptorName.equals("Hybrid")) {
+            String keyPath = Installer.getKeyPath("AES");
+            Scanner scanner;
+            try {
+                scanner = new Scanner(new File(keyPath));
+                String[] keyinfo = new String[1];
+                while(scanner.hasNextLine()) {
+                    String line = scanner.nextLine();
+                    if(line.isEmpty())
+                        continue;
+                    String[] split = line.split(",");
+                    if(split[0].equals("AES")) {
+                        keyinfo = split;
+                    }
+                }
+                RSAEncryptor rsa = (RSAEncryptor) encryptor;
+                encryptor = new HybridEncryptor(rsa.decrypt(keyinfo[1]), rsa);
+            } catch (FileNotFoundException e) {
+                System.err.println("Couldn't open keys!");
+                System.exit(1);
+            }
+
         }
     }
 

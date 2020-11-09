@@ -9,6 +9,7 @@ import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.math.BigInteger;
+import java.util.ArrayList;
 import java.util.Scanner;
 import java.awt.Component;
 
@@ -68,7 +69,7 @@ public class EncryptionSelecterDialog extends JDialog {
         }
     }
 
-    private void setupCeaser(CeaserEncryptor enc) {
+    private CeaserEncryptor setupCeaser(CeaserEncryptor enc) {
         String[] key = new String[1];
         new AskKeyDialog(this, true, key, "Enter a key: Any number");
         boolean done = false;
@@ -81,12 +82,14 @@ public class EncryptionSelecterDialog extends JDialog {
                 done = false;
             }
         }
+        
+        return enc;
     }
 
-    private void setupRSA(RSAEncryptor rsa) {
+    private RSAEncryptor setupRSA(RSAEncryptor rsa) {
 
         // check for key file
-        String keyPath = Installer.getKeyPath();
+        String keyPath = Installer.getKeyPath("RSA");
         File file = new File(keyPath);
         if (!file.exists()) {
 
@@ -118,6 +121,7 @@ public class EncryptionSelecterDialog extends JDialog {
                         keyinfo = split;
                     }
                 }
+                scanner.close();
                 if(keyinfo.length > 1) {
                     String[] key = new String[1];
                     AskKeyDialog akd = new AskKeyDialog(this, true, key, "Enter your RSA key");
@@ -128,21 +132,54 @@ public class EncryptionSelecterDialog extends JDialog {
             }
 
         }
+
+        return rsa;
     }
     
-    private void setupHybrid(HybridEncryptor hyb) {
-    	String[] key = new String[1];
-        new AskKeyDialog(this, true, key, "Enter a key: Any string");
-        boolean done = false;
-        while (!done) {
+    private HybridEncryptor setupHybrid(HybridEncryptor hyb) {
+
+        //ensure RSA is setup.
+        RSAEncryptor rsa = new RSAEncryptor();
+        rsa = setupRSA(rsa);
+
+        // check for key file
+        String keyPath = Installer.getKeyPath("AES");
+        File file = new File(keyPath);
+        if (!file.exists()) {
             try {
-                hyb.setKey(key[0]);
-                done = true;
-            } catch (NumberFormatException e) {
-                new AskKeyDialog(this, true, key, "Enter a key: Any number");
-                done = false;
+                FileWriter fos = new FileWriter(file);
+                fos.write("AES,");
+                fos.write("" + rsa.encrypt(hyb.getKey()));
+                fos.write("\n");
+                fos.close();
+            } catch (IOException e) {
+                System.err.println("ERROR WRITING KEYS!");
+            }
+        } else {
+            try {
+                Scanner scanner = new Scanner(file);
+                String[] keyinfo = new String[1];
+                while(scanner.hasNextLine()) {
+                    String line = scanner.nextLine();
+                    if(line.isEmpty())
+                        continue;
+                    String[] split = line.split(",");
+                    if(split[0].equals("AES")) {
+                        keyinfo = split;
+                    }
+                }
+                scanner.close();
+                if(keyinfo.length > 1) {
+                    hyb.setKey(rsa.decrypt(keyinfo[1]));
+                    hyb.setRSA(rsa);
+                }
+            } catch(IOException e) {
+                System.err.println("Error with files while setting up rsa.");
             }
         }
+
+        return hyb;
+        
     }
 
     private void finish() {
