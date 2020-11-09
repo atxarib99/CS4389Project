@@ -1,4 +1,5 @@
 package com.Enkryptor;
+
 import java.awt.event.ActionListener;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
@@ -7,6 +8,7 @@ import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
@@ -107,7 +109,9 @@ public class AskKeyDialog extends JDialog {
         forgot.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent event) {
-                //TODO: implement some sort of wipe / restart
+                JOptionPane.showMessageDialog(AskKeyDialog.this, "Resetting... Don't forget again! :)");
+                Installer.uninstall();
+                System.exit(0);
             }
         });
         mainPanel.add(forgot);

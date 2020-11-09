@@ -45,6 +45,19 @@ public class Installer {
 
     }
 
+    public static void uninstall() {
+        String sep = File.separator;
+        String home = System.getProperty("user.home");
+
+        File enkryptor = new File(home + sep + "Enkryptor" + sep);
+        String[]entries = enkryptor.list();
+        for(String s: entries){
+            File currentFile = new File(enkryptor.getPath(),s);
+            currentFile.delete();
+        }
+        enkryptor.delete();
+    }
+
     public static String getInstallationDir() {
         String sep = File.separator;
         String home = System.getProperty("user.home");
