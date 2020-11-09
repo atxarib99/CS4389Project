@@ -15,7 +15,7 @@ public class CeaserEncryptor extends Encryptor {
         this.key = key;
     }
 
-    public int getKey() {
+    protected int getKey() {
         return key;
     }
 
